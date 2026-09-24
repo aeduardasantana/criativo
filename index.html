@@ -2,15 +2,15 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#0f172a" />
-  <title>Gerador de Figurinhas | Compass Rose Systems</title>
-  <meta name="description" content="Gerador de figurinhas personalizadas desenvolvido pela Compass Rose Systems." />
+  <title>CRIATIVO | Compass Rose Systems</title>
+  <meta name="description" content="Crie artes, posts e criativos nos principais formatos das redes sociais." />
   <link rel="stylesheet" href="./assets/styles.css" />
 </head>
-<body>
-  <header class="site-header">
-    <a class="brand" href="./" aria-label="Compass Rose Systems - início">
+<body class="criativo-app">
+  <header class="site-header app-header">
+    <a class="brand" href="./" aria-label="CRIATIVO - início">
       <span class="brand-mark" aria-hidden="true">
         <svg viewBox="0 0 24 24" role="img">
           <circle cx="12" cy="12" r="7.5"></circle>
@@ -19,46 +19,187 @@
         </svg>
       </span>
       <span class="brand-text">
-        <strong>Compass Rose</strong>
-        <small>Systems</small>
+        <strong>CRIATIVO</strong>
+        <small>Compass Rose Systems</small>
       </span>
     </a>
+
+    <nav class="top-nav" aria-label="Navegação principal">
+      <a href="#criar">Criar arte</a>
+      <details class="client-menu">
+        <summary>Clientes</summary>
+        <div class="client-menu__panel">
+          <a href="./atacadao/">
+            <strong>Atacadão Eletromóveis</strong>
+            <span>Área exclusiva</span>
+          </a>
+        </div>
+      </details>
+    </nav>
   </header>
 
-  <main class="home-shell">
-    <section class="hero">
-      <p class="eyebrow">FIGURINHAS PERSONALIZADAS</p>
-      <h1>Crie suas figurinhas de forma simples.</h1>
-      <p class="hero-copy">
-        Escolha o cliente para acessar os modelos disponíveis e criar novas figurinhas.
-      </p>
+  <main class="home-shell creative-shell">
+    <section class="creative-hero">
+      <p class="eyebrow">ARTES • POSTS • CRIATIVOS</p>
+      <h1>Crie no formato certo para cada tela.</h1>
+      <p class="hero-copy">Escolha a proporção, envie sua imagem, ajuste o fundo, adicione texto e baixe a arte pronta no tamanho correto.</p>
+      <a class="hero-cta" href="#criar">Começar agora</a>
     </section>
 
-    <section class="clients" aria-labelledby="clientes-titulo">
-      <div class="section-heading">
-        <p class="eyebrow">CLIENTES</p>
-        <h2 id="clientes-titulo">Acessar gerador</h2>
+    <section class="format-section" id="criar" aria-labelledby="format-title">
+      <div class="section-heading creative-heading">
+        <p class="eyebrow">PASSO 1</p>
+        <h2 id="format-title">Escolha o formato</h2>
+        <p>As resoluções abaixo já estão configuradas para exportação.</p>
       </div>
 
-      <div class="client-grid">
-        <a class="client-card" href="./atacadao/">
-          <div class="client-card__visual">
-            <span class="client-initials">AE</span>
+      <div class="format-grid" id="format-grid">
+        <button class="format-card is-active" type="button" data-format="story" aria-pressed="true">
+          <span class="format-shape format-shape--916"></span>
+          <span class="format-card__body">
+            <strong>9:16</strong>
+            <span>1080 × 1920 px</span>
+            <small>Stories, Reels, TikTok e Shorts</small>
+          </span>
+        </button>
+
+        <button class="format-card" type="button" data-format="portrait" aria-pressed="false">
+          <span class="format-shape format-shape--45"></span>
+          <span class="format-card__body">
+            <strong>4:5</strong>
+            <span>1080 × 1350 px</span>
+            <small>Feeds do Instagram, Facebook e LinkedIn</small>
+          </span>
+        </button>
+
+        <button class="format-card" type="button" data-format="square" aria-pressed="false">
+          <span class="format-shape format-shape--11"></span>
+          <span class="format-card__body">
+            <strong>1:1</strong>
+            <span>1200 × 1200 px</span>
+            <small>Feeds do Instagram, Facebook, LinkedIn e X</small>
+          </span>
+        </button>
+
+        <button class="format-card" type="button" data-format="wide" aria-pressed="false">
+          <span class="format-shape format-shape--169"></span>
+          <span class="format-card__body">
+            <strong>16:9</strong>
+            <span>1920 × 1080 px</span>
+            <small>YouTube, X, Facebook e LinkedIn</small>
+          </span>
+        </button>
+      </div>
+    </section>
+
+    <section class="generic-editor-section" aria-labelledby="generic-editor-title">
+      <div class="section-heading creative-heading">
+        <p class="eyebrow">PASSO 2</p>
+        <h2 id="generic-editor-title">Monte sua arte</h2>
+        <p>A imagem enviada fica ajustada ao formato escolhido. Você pode usar apenas uma cor de fundo ou combinar fundo e imagem.</p>
+      </div>
+
+      <div class="generic-editor-layout">
+        <div class="generic-preview-column">
+          <div class="generic-preview-stage">
+            <div class="generic-preview" id="generic-preview">
+              <div class="generic-preview__canvas" id="preview-canvas">
+                <img id="uploaded-image-preview" alt="" hidden />
+                <div class="generic-text-layer" id="generic-text-layer">
+                  <span id="generic-text-preview">SEU TEXTO</span>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="client-card__content">
-            <span class="client-status">Disponível</span>
-            <h3>Atacadão Eletromóveis</h3>
-            <p>Crie figurinhas personalizadas usando os modelos disponíveis para a marca.</p>
-            <span class="client-action">Criar figurinha <span aria-hidden="true">→</span></span>
+          <p class="preview-caption" id="format-caption">9:16 • 1080 × 1920 px</p>
+        </div>
+
+        <form class="generic-controls" id="generic-controls" onsubmit="return false;">
+          <div class="control-card">
+            <span class="control-step">IMAGEM</span>
+            <label class="upload-zone" for="image-upload">
+              <span class="upload-zone__title">Enviar imagem</span>
+              <span class="upload-zone__hint">JPG, PNG ou WebP</span>
+              <input id="image-upload" type="file" accept="image/jpeg,image/png,image/webp" />
+            </label>
+            <div class="image-actions" id="image-actions" hidden>
+              <button type="button" class="secondary-action" id="remove-image">Remover imagem</button>
+            </div>
           </div>
-        </a>
+
+          <div class="control-card">
+            <span class="control-step">AJUSTE DA IMAGEM</span>
+            <div class="segmented-control generic-segment">
+              <button type="button" data-fit="cover" class="is-active">Preencher</button>
+              <button type="button" data-fit="contain">Encaixar</button>
+            </div>
+            <p class="control-help">Preencher recorta o excesso. Encaixar mostra a imagem inteira.</p>
+          </div>
+
+          <div class="control-card">
+            <span class="control-step">FUNDO</span>
+            <div class="background-options">
+              <button type="button" class="background-choice is-active" data-bg="#ffffff"><span class="swatch swatch--white"></span>Branco</button>
+              <button type="button" class="background-choice" data-bg="#000000"><span class="swatch swatch--black"></span>Preto</button>
+              <label class="custom-color-choice">
+                <span>Outra cor</span>
+                <input type="color" id="background-color" value="#4f46e5" />
+              </label>
+            </div>
+          </div>
+
+          <div class="control-card">
+            <span class="control-step">TEXTO</span>
+            <label class="field">
+              <span class="field-label">Texto da arte</span>
+              <textarea id="generic-text-input" rows="4" maxlength="180" placeholder="Digite sua mensagem"></textarea>
+              <span class="field-meta"><span>Até 180 caracteres</span><span id="generic-char-count">0/180</span></span>
+            </label>
+
+            <div class="control-group">
+              <div class="control-heading"><span>Tamanho</span><output id="generic-font-output">72</output></div>
+              <input id="generic-font-size" type="range" min="28" max="150" value="72" />
+            </div>
+
+            <div class="control-group">
+              <div class="control-heading"><span>Posição vertical</span><output id="generic-position-output">50%</output></div>
+              <input id="generic-position" type="range" min="8" max="92" value="50" />
+            </div>
+
+            <fieldset class="choice-group">
+              <legend>Alinhamento</legend>
+              <div class="segmented-control generic-segment">
+                <button type="button" data-generic-align="left">Esquerda</button>
+                <button type="button" data-generic-align="center" class="is-active">Centro</button>
+                <button type="button" data-generic-align="right">Direita</button>
+              </div>
+            </fieldset>
+
+            <fieldset class="choice-group">
+              <legend>Cor do texto</legend>
+              <div class="color-control">
+                <button type="button" data-generic-color="#ffffff" class="color-choice is-active"><span class="color-dot color-dot--white"></span>Branco</button>
+                <button type="button" data-generic-color="#000000" class="color-choice"><span class="color-dot color-dot--black"></span>Preto</button>
+              </div>
+            </fieldset>
+          </div>
+
+          <div class="control-card export-card">
+            <span class="control-step">PASSO 3</span>
+            <button type="button" class="primary-action" id="download-creative">Baixar arte</button>
+            <p class="export-note" id="download-note">PNG • 1080 × 1920 px</p>
+            <p class="export-status" id="generic-export-status" aria-live="polite"></p>
+          </div>
+        </form>
       </div>
     </section>
   </main>
 
   <footer class="site-footer">
+    <span>CRIATIVO</span>
     <span>Compass Rose Systems</span>
-    <span>Gerador de Figurinhas</span>
   </footer>
+
+  <script src="./assets/creative.js"></script>
 </body>
 </html>
