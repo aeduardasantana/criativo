@@ -38,6 +38,7 @@ const legibilityTitle = document.getElementById("legibility-title");
 const legibilityMessage = document.getElementById("legibility-message");
 const downloadSticker = document.getElementById("download-sticker");
 const shareSticker = document.getElementById("share-sticker");
+const exportStatus = document.getElementById("export-status");
 
 const getSrc = (file) => "../FIGURINHAS IBRAIM/" + encodeURIComponent(file).replaceAll("%2F", "/");
 count.textContent = backgrounds.length + " fundos disponíveis";
@@ -101,11 +102,21 @@ function updateText() {
   applyLegibilityRules();
 }
 
+function previewScale() {
+  return stickerPreview.clientWidth ? stickerPreview.clientWidth / 512 : 1;
+}
+
+function applyPreviewTypography(exportFontPx) {
+  const scale = previewScale();
+  stickerText.style.fontSize = (exportFontPx * scale) + "px";
+  stickerText.style.webkitTextStrokeWidth = Math.max(1, exportFontPx * 0.08 * scale) + "px";
+}
+
 function updateFontSize() {
-  const value = fontSize.value;
-  stickerText.style.fontSize = value + "px";
+  const value = Number(fontSize.value);
+  applyPreviewTypography(value);
   fontSizeOutput.textContent = value;
-  sessionStorage.setItem("stickerFontSize", value);
+  sessionStorage.setItem("stickerFontSize", String(value));
   applyLegibilityRules();
 }
 
@@ -146,11 +157,11 @@ function applyLegibilityRules() {
   const requestedFont = Number(fontSize.value);
   const minFont = 24;
   let currentFont = requestedFont;
-  stickerText.style.fontSize = currentFont + "px";
+  applyPreviewTypography(currentFont);
 
   while (currentFont > minFont && stickerText.getBoundingClientRect().height > maxHeight) {
     currentFont -= 1;
-    stickerText.style.fontSize = currentFont + "px";
+    applyPreviewTypography(currentFont);
   }
 
   const lineCount = getLineCount();
@@ -178,6 +189,32 @@ function loadImage(src) {
     image.onerror = reject;
     image.src = src;
   });
+}
+
+function drawImageContain(ctx, image, width, height) {
+  const imageRatio = image.naturalWidth / image.naturalHeight;
+  const boxRatio = width / height;
+  let drawWidth = width;
+  let drawHeight = height;
+  let x = 0;
+  let y = 0;
+
+  if (imageRatio > boxRatio) {
+    drawHeight = width / imageRatio;
+    y = (height - drawHeight) / 2;
+  } else {
+    drawWidth = height * imageRatio;
+    x = (width - drawWidth) / 2;
+  }
+
+  ctx.drawImage(image, x, y, drawWidth, drawHeight);
+}
+
+function setExportState(active, message = "") {
+  downloadSticker.disabled = active;
+  shareSticker.disabled = active;
+  document.body.classList.toggle("is-exporting", active);
+  exportStatus.textContent = message;
 }
 
 function wrapCanvasText(ctx, text, maxWidth, fontPx) {
@@ -222,7 +259,7 @@ async function exportStickerBlob() {
   const bg = await loadImage(editorBackground.src);
   ctx.fillStyle = "#ffffff";
   ctx.fillRect(0, 0, 512, 512);
-  ctx.drawImage(bg, 0, 0, 512, 512);
+  drawImageContain(ctx, bg, 512, 512);
 
   const text = stickerInput.value.trim() || "SUA MENSAGEM";
   const align = sessionStorage.getItem("stickerTextAlign") || "center";
@@ -276,6 +313,7 @@ async function exportStickerBlob() {
 
 downloadSticker.addEventListener("click", async () => {
   try {
+    setExportState(true, "Gerando figurinha…");
     const blob = await exportStickerBlob();
     if (!blob) return;
     const url = URL.createObjectURL(blob);
@@ -286,14 +324,19 @@ downloadSticker.addEventListener("click", async () => {
     link.click();
     link.remove();
     setTimeout(() => URL.revokeObjectURL(url), 500);
+    exportStatus.textContent = "Figurinha baixada.";
   } catch (error) {
     console.error(error);
+    exportStatus.textContent = "Não foi possível gerar a figurinha.";
     alert("Não foi possível gerar a figurinha.");
+  } finally {
+    setExportState(false, exportStatus.textContent);
   }
 });
 
 shareSticker.addEventListener("click", async () => {
   try {
+    setExportState(true, "Preparando para compartilhar…");
     const blob = await exportStickerBlob();
     if (!blob) return;
 
@@ -301,6 +344,7 @@ shareSticker.addEventListener("click", async () => {
 
     if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
       await navigator.share({ files: [file], title: "Figurinha Atacadão Eletromóveis" });
+      exportStatus.textContent = "Compartilhamento concluído.";
       return;
     }
 
@@ -312,11 +356,18 @@ shareSticker.addEventListener("click", async () => {
     link.click();
     link.remove();
     setTimeout(() => URL.revokeObjectURL(url), 500);
+    exportStatus.textContent = "Compartilhamento direto indisponível; a figurinha foi baixada.";
     alert("O compartilhamento direto não está disponível neste dispositivo. A figurinha foi baixada.");
   } catch (error) {
-    if (error?.name === "AbortError") return;
+    if (error?.name === "AbortError") {
+      exportStatus.textContent = "";
+      return;
+    }
     console.error(error);
+    exportStatus.textContent = "Não foi possível compartilhar a figurinha.";
     alert("Não foi possível compartilhar a figurinha.");
+  } finally {
+    setExportState(false, exportStatus.textContent);
   }
 });
 
@@ -325,7 +376,16 @@ fontSize.addEventListener("input", updateFontSize);
 textPosition.addEventListener("input", updatePosition);
 document.querySelectorAll("[data-align]").forEach((button) => button.addEventListener("click", () => setAlignment(button.dataset.align)));
 document.querySelectorAll("[data-color]").forEach((button) => button.addEventListener("click", () => setTextColor(button.dataset.color)));
-window.addEventListener("resize", applyLegibilityRules);
+window.addEventListener("resize", () => {
+  applyPreviewTypography(Number(fontSize.value));
+  applyLegibilityRules();
+});
+
+if (window.visualViewport) {
+  window.visualViewport.addEventListener("resize", () => {
+    document.documentElement.style.setProperty("--visual-viewport-height", window.visualViewport.height + "px");
+  });
+}
 
 resetEditor.addEventListener("click", () => {
   stickerInput.value = "";
