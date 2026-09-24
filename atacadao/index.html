@@ -12,10 +12,7 @@
   <header class="site-header">
     <a class="brand" href="../" aria-label="Voltar para a página inicial">
       <span class="brand-mark">CR</span>
-      <span class="brand-text">
-        <strong>Compass Rose</strong>
-        <small>Systems</small>
-      </span>
+      <span class="brand-text"><strong>Compass Rose</strong><small>Systems</small></span>
     </a>
     <a class="back-link" href="../">← Voltar</a>
   </header>
@@ -25,7 +22,7 @@
       <div>
         <p class="eyebrow">ÁREA DO CLIENTE</p>
         <h1>Atacadão Eletromóveis</h1>
-        <p class="hero-copy">Escolha um dos fundos disponíveis para começar sua figurinha.</p>
+        <p class="hero-copy">Escolha um fundo, escreva sua mensagem e acompanhe a figurinha em tempo real.</p>
       </div>
       <div class="client-badge" aria-hidden="true">AE</div>
     </section>
@@ -35,7 +32,7 @@
         <div>
           <p class="eyebrow">PASSO 1 DE 3</p>
           <h2 id="fundos-titulo">Escolha o fundo</h2>
-          <p class="gallery-help">Toque em uma imagem para selecionar. Você poderá adicionar o texto na próxima etapa.</p>
+          <p class="gallery-help">Toque em uma imagem para selecionar. Você poderá trocar o fundo quando quiser.</p>
         </div>
         <span class="background-count" id="background-count" aria-live="polite"></span>
       </div>
@@ -43,9 +40,7 @@
       <div class="background-grid" id="background-grid" aria-label="Fundos disponíveis"></div>
 
       <div class="selection-panel" id="selection-panel" hidden aria-live="polite">
-        <div class="selection-panel__thumb">
-          <img id="selected-preview" alt="" />
-        </div>
+        <div class="selection-panel__thumb"><img id="selected-preview" alt="" /></div>
         <div class="selection-panel__text">
           <span class="selection-kicker">FUNDO SELECIONADO</span>
           <strong id="selected-name">Modelo escolhido</strong>
@@ -54,13 +49,66 @@
         <button class="selection-clear" id="clear-selection" type="button">Trocar</button>
       </div>
     </section>
+
+    <section class="editor-section" id="editor-section" hidden aria-labelledby="editor-title">
+      <div class="editor-heading">
+        <p class="eyebrow">PASSO 2 DE 3</p>
+        <h2 id="editor-title">Adicione o texto</h2>
+        <p>Digite sua mensagem e ajuste apenas o necessário. A prévia muda enquanto você edita.</p>
+      </div>
+
+      <div class="editor-layout">
+        <div class="sticker-preview-wrap">
+          <div class="sticker-preview" id="sticker-preview" aria-label="Prévia da figurinha">
+            <img id="editor-background" alt="Fundo selecionado" />
+            <div class="sticker-text-layer" id="sticker-text-layer">
+              <span id="sticker-text">SUA MENSAGEM</span>
+            </div>
+          </div>
+          <p class="preview-caption">Prévia 1:1</p>
+        </div>
+
+        <form class="editor-controls" onsubmit="return false;">
+          <label class="field">
+            <span class="field-label">Texto da figurinha</span>
+            <textarea id="sticker-input" rows="4" maxlength="100" placeholder="Ex.: Manda a localização para entrega"></textarea>
+            <span class="field-meta"><span>Máximo de 100 caracteres</span><span id="char-count">0/100</span></span>
+          </label>
+
+          <div class="control-group">
+            <div class="control-heading"><span>Tamanho do texto</span><output id="font-size-output">44</output></div>
+            <input id="font-size" type="range" min="26" max="72" value="44" />
+          </div>
+
+          <div class="control-group">
+            <div class="control-heading"><span>Posição vertical</span><output id="text-position-output">50%</output></div>
+            <input id="text-position" type="range" min="18" max="82" value="50" />
+          </div>
+
+          <fieldset class="choice-group">
+            <legend>Alinhamento</legend>
+            <div class="segmented-control">
+              <button type="button" data-align="left">Esquerda</button>
+              <button type="button" data-align="center" class="is-active">Centro</button>
+              <button type="button" data-align="right">Direita</button>
+            </div>
+          </fieldset>
+
+          <fieldset class="choice-group">
+            <legend>Cor do texto</legend>
+            <div class="color-control">
+              <button type="button" data-color="#ffffff" class="color-choice is-active"><span class="color-dot color-dot--white"></span>Branco</button>
+              <button type="button" data-color="#111111" class="color-choice"><span class="color-dot color-dot--black"></span>Preto</button>
+            </div>
+          </fieldset>
+
+          <button type="button" class="reset-editor" id="reset-editor">Limpar ajustes</button>
+        </form>
+      </div>
+    </section>
   </main>
 
-  <footer class="site-footer">
-    <span>Compass Rose Systems</span>
-    <span>Atacadão Eletromóveis</span>
-  </footer>
-
+  <footer class="site-footer"><span>Compass Rose Systems</span><span>Atacadão Eletromóveis</span></footer>
   <script src="./backgrounds.js"></script>
 </body>
 </html>
