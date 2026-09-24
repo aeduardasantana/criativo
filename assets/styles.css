@@ -1487,3 +1487,79 @@ body {
     min-height: 360px;
   }
 }
+
+
+/* Logo do cliente e manipulação direta do texto */
+.client-logo-wrap {
+  flex: 0 0 auto;
+  width: min(25vw, 220px);
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+}
+
+.client-logo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.drag-hint {
+  margin: 4px 0 0;
+  color: #64748b;
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.sticker-text-layer,
+.generic-text-layer {
+  width: 86%;
+  right: auto;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: auto;
+  touch-action: none;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.sticker-text-layer.is-dragging,
+.generic-text-layer.is-dragging {
+  cursor: grabbing;
+}
+
+.sticker-text-layer::after,
+.generic-text-layer::after {
+  content: "";
+  position: absolute;
+  inset: -12px -8px;
+  border: 1px dashed transparent;
+  border-radius: 10px;
+  pointer-events: none;
+}
+
+.sticker-text-layer:hover::after,
+.generic-text-layer:hover::after,
+.sticker-text-layer.is-dragging::after,
+.generic-text-layer.is-dragging::after {
+  border-color: rgba(99,102,241,.55);
+}
+
+@media (max-width: 720px) {
+  .client-logo-wrap {
+    width: 116px;
+  }
+}
+
+@media (max-width: 620px) {
+  .client-logo-wrap {
+    width: 96px;
+  }
+
+  .drag-hint {
+    font-size: 12px;
+  }
+}
