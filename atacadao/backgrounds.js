@@ -169,16 +169,16 @@ function applyLegibilityRules() {
 
   if (stickerText.getBoundingClientRect().height > maxHeight || lineCount > 4) {
     legibilityPanel.classList.add("is-danger");
-    legibilityTitle.textContent = "Texto longo demais para figurinha";
-    legibilityMessage.textContent = "Reduza a frase para melhorar a leitura no WhatsApp.";
+    legibilityTitle.textContent = "Texto excede a área segura";
+    legibilityMessage.textContent = "Reduza a frase ou o tamanho do texto para manter a composição dentro da área segura.";
   } else if (currentFont < requestedFont || lineCount === 4) {
     legibilityPanel.classList.add("is-warning");
-    legibilityTitle.textContent = "Ajustada automaticamente";
-    legibilityMessage.textContent = "O sistema reduziu o texto para preservar a legibilidade.";
+    legibilityTitle.textContent = "Tamanho ajustado automaticamente";
+    legibilityMessage.textContent = "O sistema reduziu o texto para caber na área segura. Confira o contraste e a posição sobre o fundo.";
   } else {
     legibilityPanel.classList.add("is-good");
-    legibilityTitle.textContent = "Ótima legibilidade";
-    legibilityMessage.textContent = "O texto está bem distribuído para figurinha.";
+    legibilityTitle.textContent = "Texto dentro da área segura";
+    legibilityMessage.textContent = "O tamanho está adequado tecnicamente. Confira visualmente se o texto não cobre elementos importantes do fundo.";
   }
 }
 
