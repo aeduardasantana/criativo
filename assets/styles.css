@@ -1563,3 +1563,71 @@ body {
     font-size: 12px;
   }
 }
+
+
+/* Correção de escala da logo Atacadão */
+.client-hero {
+  overflow: hidden;
+}
+
+.client-hero > div:first-child {
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.client-logo-wrap {
+  flex: 0 0 120px !important;
+  width: 120px !important;
+  height: 120px !important;
+  max-width: 120px !important;
+  max-height: 120px !important;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.client-logo {
+  display: block !important;
+  width: 120px !important;
+  height: 120px !important;
+  max-width: 120px !important;
+  max-height: 120px !important;
+  object-fit: contain !important;
+}
+
+@media (max-width: 720px) {
+  .client-hero {
+    align-items: center;
+  }
+
+  .client-logo-wrap,
+  .client-logo {
+    width: 88px !important;
+    height: 88px !important;
+    max-width: 88px !important;
+    max-height: 88px !important;
+  }
+
+  .client-logo-wrap {
+    flex-basis: 88px !important;
+  }
+}
+
+@media (max-width: 520px) {
+  .client-hero {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 18px;
+  }
+
+  .client-logo-wrap,
+  .client-logo {
+    width: 72px !important;
+    height: 72px !important;
+    max-width: 72px !important;
+    max-height: 72px !important;
+  }
+
+  .client-logo-wrap {
+    flex-basis: 72px !important;
+  }
+}
