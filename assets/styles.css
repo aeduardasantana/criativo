@@ -801,3 +801,186 @@ h1 {
   .client-hero h1 { font-size: 38px; }
   .field-meta { align-items: flex-start; flex-direction: column; gap: 4px; }
 }
+
+/* Identidade Compass Rose Systems — alinhada ao Feedback Compass Rose */
+:root {
+  --bg: #f8fafc;
+  --surface: #ffffff;
+  --surface-strong: #0f172a;
+  --text: #0f172a;
+  --muted: #64748b;
+  --line: #e2e8f0;
+  --accent: #4f46e5;
+  --accent-strong: #4338ca;
+  --accent-soft: #eef2ff;
+  --shadow: 0 16px 40px rgba(15,23,42,.08);
+}
+
+html {
+  background: var(--bg);
+}
+
+body {
+  background:
+    radial-gradient(circle at top right, rgba(79,70,229,.08), transparent 28%),
+    linear-gradient(180deg, #f8fafc 0%, #ffffff 46%, #f8fafc 100%);
+}
+
+.site-header {
+  border-bottom: 1px solid rgba(226,232,240,.78);
+}
+
+.brand-mark {
+  border-radius: 14px;
+  background: var(--accent);
+  box-shadow: 0 8px 22px rgba(79,70,229,.24);
+}
+
+.brand-mark svg {
+  width: 23px;
+  height: 23px;
+  fill: none;
+  stroke: #fff;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.brand-text strong {
+  color: #0f172a;
+  font-weight: 800;
+}
+
+.brand-text small,
+.eyebrow {
+  color: #6366f1;
+}
+
+.back-link {
+  color: #475569;
+}
+
+.hero h1,
+.client-hero h1,
+.gallery-heading h2,
+.editor-heading h2,
+.section-heading h2 {
+  color: #0f172a;
+}
+
+.client-card,
+.editor-controls,
+.workspace-placeholder__content {
+  border-color: #e2e8f0;
+  box-shadow: var(--shadow);
+}
+
+.client-card__visual,
+.client-badge {
+  background:
+    radial-gradient(circle at 68% 24%, rgba(99,102,241,.35), transparent 30%),
+    linear-gradient(145deg, #0f172a, #312e81);
+}
+
+.client-card__visual {
+  position: relative;
+}
+
+.client-card__visual::after {
+  content: "";
+  position: absolute;
+  width: 118px;
+  height: 118px;
+  border: 1px solid rgba(255,255,255,.14);
+  border-radius: 50%;
+}
+
+.client-action,
+.client-status {
+  color: #4f46e5;
+}
+
+.background-card.is-selected {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(79,70,229,.14), 0 12px 28px rgba(15,23,42,.10);
+}
+
+.background-card__check,
+.background-card__number {
+  background: rgba(49,46,129,.94);
+}
+
+.selection-panel {
+  background: rgba(15,23,42,.96);
+  border-color: rgba(129,140,248,.22);
+}
+
+.field textarea:focus {
+  border-color: #6366f1;
+  outline: 3px solid rgba(99,102,241,.14);
+}
+
+.control-group input[type="range"] {
+  accent-color: var(--accent);
+}
+
+.segmented-control button.is-active,
+.color-choice.is-active,
+.primary-action {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: #fff;
+}
+
+.primary-action:hover {
+  background: var(--accent-strong);
+}
+
+.secondary-action {
+  border-color: #cbd5e1;
+  background: #fff;
+  color: #334155;
+}
+
+.reset-editor {
+  background: #f8fafc;
+  color: #475569;
+}
+
+.legibility-panel {
+  border-color: #cbd5e1;
+  background: #f8fafc;
+}
+
+.legibility-panel.is-good {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+.legibility-panel.is-warning {
+  background: #fff7ed;
+  border-color: #fed7aa;
+}
+
+.legibility-panel.is-danger {
+  background: #fff1f2;
+  border-color: #fecdd3;
+}
+
+.legibility-panel strong {
+  color: #334155;
+}
+
+.site-footer {
+  color: #64748b;
+}
+
+@media (max-width: 620px) {
+  .site-header {
+    border-bottom-color: rgba(226,232,240,.9);
+  }
+
+  .brand-mark {
+    border-radius: 12px;
+  }
+}
