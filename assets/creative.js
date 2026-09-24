@@ -11,6 +11,8 @@ let fitMode = "cover";
 let backgroundColor = "#ffffff";
 let textColor = "#ffffff";
 let textAlign = "center";
+let textX = 50;
+let textY = 50;
 
 const preview = document.getElementById("generic-preview");
 const previewCanvas = document.getElementById("preview-canvas");
@@ -136,8 +138,14 @@ function updateFont() {
   scalePreviewText();
 }
 
+function applyTextPosition() {
+  textLayer.style.left = textX + "%";
+  textLayer.style.top = textY + "%";
+}
+
 function updatePosition() {
-  textLayer.style.top = position.value + "%";
+  textY = Number(position.value);
+  applyTextPosition();
   positionOutput.textContent = position.value + "%";
 }
 
@@ -256,9 +264,11 @@ async function exportCreative() {
     ctx.strokeStyle = textColor === "#ffffff" ? "rgba(0,0,0,.58)" : "rgba(255,255,255,.62)";
     ctx.lineWidth = Math.max(3, fontPx * 0.035);
 
-    const x = textAlign === "left" ? canvas.width * 0.07 : textAlign === "right" ? canvas.width * 0.93 : canvas.width / 2;
+    const centerX = canvas.width * (textX / 100);
+    const blockHalfWidth = maxWidth / 2;
+    const x = textAlign === "left" ? centerX - blockHalfWidth : textAlign === "right" ? centerX + blockHalfWidth : centerX;
     const blockHeight = lines.length * lineHeight;
-    let y = canvas.height * (Number(position.value) / 100) - blockHeight / 2 + lineHeight / 2;
+    let y = canvas.height * (textY / 100) - blockHeight / 2 + lineHeight / 2;
 
     lines.forEach((line) => {
       ctx.strokeText(line, x, y);
@@ -294,6 +304,45 @@ downloadButton.addEventListener("click", async () => {
     downloadButton.disabled = false;
   }
 });
+
+let draggingText = false;
+
+function moveGenericText(clientX, clientY) {
+  const rect = previewCanvas.getBoundingClientRect();
+  const x = ((clientX - rect.left) / rect.width) * 100;
+  const y = ((clientY - rect.top) / rect.height) * 100;
+  textX = Math.max(7, Math.min(93, x));
+  textY = Math.max(8, Math.min(92, y));
+  position.value = String(Math.round(textY));
+  positionOutput.textContent = Math.round(textY) + "%";
+  applyTextPosition();
+}
+
+textLayer.addEventListener("pointerdown", (event) => {
+  draggingText = true;
+  textLayer.setPointerCapture(event.pointerId);
+  textLayer.classList.add("is-dragging");
+  moveGenericText(event.clientX, event.clientY);
+  event.preventDefault();
+});
+
+textLayer.addEventListener("pointermove", (event) => {
+  if (!draggingText) return;
+  moveGenericText(event.clientX, event.clientY);
+  event.preventDefault();
+});
+
+function stopGenericDrag(event) {
+  if (!draggingText) return;
+  draggingText = false;
+  textLayer.classList.remove("is-dragging");
+  if (event.pointerId !== undefined && textLayer.hasPointerCapture(event.pointerId)) {
+    textLayer.releasePointerCapture(event.pointerId);
+  }
+}
+
+textLayer.addEventListener("pointerup", stopGenericDrag);
+textLayer.addEventListener("pointercancel", stopGenericDrag);
 
 window.addEventListener("resize", scalePreviewText);
 
