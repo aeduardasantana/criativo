@@ -724,3 +724,44 @@ h1 {
   .segmented-control { grid-template-columns: 1fr; }
   .segmented-control button { min-height: 46px; }
 }
+
+/* Etapas 4 e 5 — legibilidade e exportação */
+.legibility-panel {
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  display: grid;
+  gap: 6px;
+}
+.legibility-panel strong { font-size: 15px; }
+.legibility-panel p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.5; }
+.legibility-panel.is-good { background: #f7f7f4; }
+.legibility-panel.is-warning { background: #fff7e8; }
+.legibility-panel.is-danger { background: #fff0f0; }
+
+.export-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.primary-action,
+.secondary-action {
+  min-height: 52px;
+  padding: 0 16px;
+  border-radius: 14px;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.primary-action { border: 1px solid #111; background: #111; color: #fff; }
+.secondary-action { border: 1px solid var(--line); background: #fff; color: var(--text); }
+.primary-action:focus-visible,
+.secondary-action:focus-visible { outline: 3px solid rgba(17,17,17,.18); outline-offset: 2px; }
+.export-note { margin: -6px 0 0; color: var(--muted); font-size: 13px; line-height: 1.5; }
+
+@media (max-width: 620px) {
+  .export-actions { grid-template-columns: 1fr; }
+  .primary-action, .secondary-action { min-height: 52px; font-size: 15px; }
+}
