@@ -39,6 +39,8 @@ const legibilityMessage = document.getElementById("legibility-message");
 const downloadSticker = document.getElementById("download-sticker");
 const shareSticker = document.getElementById("share-sticker");
 const exportStatus = document.getElementById("export-status");
+let textX = Number(sessionStorage.getItem("stickerTextX") || "50");
+let textY = Number(sessionStorage.getItem("stickerTextPosition") || "50");
 
 const getSrc = (file) => "../FIGURINHAS IBRAIM/" + encodeURIComponent(file).replaceAll("%2F", "/");
 count.textContent = backgrounds.length + " fundos disponíveis";
@@ -120,11 +122,18 @@ function updateFontSize() {
   applyLegibilityRules();
 }
 
+function applyTextPosition() {
+  stickerTextLayer.style.left = textX + "%";
+  stickerTextLayer.style.top = textY + "%";
+}
+
 function updatePosition() {
-  const value = textPosition.value;
-  stickerTextLayer.style.top = value + "%";
+  const value = Number(textPosition.value);
+  textY = value;
+  applyTextPosition();
   textPositionOutput.textContent = value + "%";
-  sessionStorage.setItem("stickerTextPosition", value);
+  sessionStorage.setItem("stickerTextPosition", String(value));
+  sessionStorage.setItem("stickerTextX", String(textX));
   applyLegibilityRules();
 }
 
@@ -289,16 +298,18 @@ async function exportStickerBlob() {
   ctx.lineWidth = Math.max(4, fontPx * 0.08);
 
   const blockHeight = lines.length * lineHeight;
-  let y = 512 * posPercent - blockHeight / 2 + lineHeight / 2;
+  let y = 512 * (textY / 100) - blockHeight / 2 + lineHeight / 2;
+  const centerX = 512 * (textX / 100);
+  const halfWidth = safeWidth / 2;
 
   lines.forEach((line) => {
-    let x = 256;
+    let x = centerX;
     if (align === "left") {
       ctx.textAlign = "left";
-      x = safeLeft;
+      x = centerX - halfWidth;
     } else if (align === "right") {
       ctx.textAlign = "right";
-      x = safeRight;
+      x = centerX + halfWidth;
     } else {
       ctx.textAlign = "center";
     }
@@ -376,6 +387,48 @@ fontSize.addEventListener("input", updateFontSize);
 textPosition.addEventListener("input", updatePosition);
 document.querySelectorAll("[data-align]").forEach((button) => button.addEventListener("click", () => setAlignment(button.dataset.align)));
 document.querySelectorAll("[data-color]").forEach((button) => button.addEventListener("click", () => setTextColor(button.dataset.color)));
+let draggingStickerText = false;
+
+function moveStickerText(clientX, clientY) {
+  const rect = stickerPreview.getBoundingClientRect();
+  const x = ((clientX - rect.left) / rect.width) * 100;
+  const y = ((clientY - rect.top) / rect.height) * 100;
+  textX = Math.max(7, Math.min(93, x));
+  textY = Math.max(8, Math.min(92, y));
+  textPosition.value = String(Math.round(textY));
+  textPositionOutput.textContent = Math.round(textY) + "%";
+  applyTextPosition();
+  sessionStorage.setItem("stickerTextX", String(textX));
+  sessionStorage.setItem("stickerTextPosition", String(textY));
+  applyLegibilityRules();
+}
+
+stickerTextLayer.addEventListener("pointerdown", (event) => {
+  draggingStickerText = true;
+  stickerTextLayer.setPointerCapture(event.pointerId);
+  stickerTextLayer.classList.add("is-dragging");
+  moveStickerText(event.clientX, event.clientY);
+  event.preventDefault();
+});
+
+stickerTextLayer.addEventListener("pointermove", (event) => {
+  if (!draggingStickerText) return;
+  moveStickerText(event.clientX, event.clientY);
+  event.preventDefault();
+});
+
+function stopStickerDrag(event) {
+  if (!draggingStickerText) return;
+  draggingStickerText = false;
+  stickerTextLayer.classList.remove("is-dragging");
+  if (event.pointerId !== undefined && stickerTextLayer.hasPointerCapture(event.pointerId)) {
+    stickerTextLayer.releasePointerCapture(event.pointerId);
+  }
+}
+
+stickerTextLayer.addEventListener("pointerup", stopStickerDrag);
+stickerTextLayer.addEventListener("pointercancel", stopStickerDrag);
+
 window.addEventListener("resize", () => {
   applyPreviewTypography(Number(fontSize.value));
   applyLegibilityRules();
@@ -391,6 +444,9 @@ resetEditor.addEventListener("click", () => {
   stickerInput.value = "";
   fontSize.value = "44";
   textPosition.value = "50";
+  textX = 50;
+  textY = 50;
+  sessionStorage.setItem("stickerTextX", "50");
   updateText();
   updateFontSize();
   updatePosition();
@@ -421,6 +477,9 @@ try {
   stickerInput.value = sessionStorage.getItem("stickerText") || "";
   fontSize.value = sessionStorage.getItem("stickerFontSize") || "44";
   textPosition.value = sessionStorage.getItem("stickerTextPosition") || "50";
+  textX = Number(sessionStorage.getItem("stickerTextX") || "50");
+  textY = Number(textPosition.value);
+  applyTextPosition();
   updateText();
   updateFontSize();
   updatePosition();
