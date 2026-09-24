@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#111111" />
   <title>Atacadão Eletromóveis | Gerador de Figurinhas</title>
   <meta name="description" content="Área de criação de figurinhas do Atacadão Eletromóveis." />
@@ -25,27 +25,33 @@
       <div>
         <p class="eyebrow">ÁREA DO CLIENTE</p>
         <h1>Atacadão Eletromóveis</h1>
-        <p class="hero-copy">
-          Crie novas figurinhas usando os fundos preparados para sua marca.
-        </p>
+        <p class="hero-copy">Escolha um dos fundos disponíveis para começar sua figurinha.</p>
       </div>
       <div class="client-badge" aria-hidden="true">AE</div>
     </section>
 
-    <section class="workspace-placeholder" aria-labelledby="editor-titulo">
-      <div class="workspace-placeholder__content">
-        <p class="eyebrow">PRÓXIMA ETAPA</p>
-        <h2 id="editor-titulo">Gerador de Figurinhas</h2>
-        <p>
-          Aqui será exibida a galeria de fundos disponíveis e, em seguida, o editor para adicionar texto e gerar a figurinha.
-        </p>
-        <div class="flow-preview" aria-label="Fluxo previsto do gerador">
-          <span>Escolher fundo</span>
-          <span aria-hidden="true">→</span>
-          <span>Adicionar texto</span>
-          <span aria-hidden="true">→</span>
-          <span>Gerar figurinha</span>
+    <section class="background-section" aria-labelledby="fundos-titulo">
+      <div class="gallery-heading">
+        <div>
+          <p class="eyebrow">PASSO 1 DE 3</p>
+          <h2 id="fundos-titulo">Escolha o fundo</h2>
+          <p class="gallery-help">Toque em uma imagem para selecionar. Você poderá adicionar o texto na próxima etapa.</p>
         </div>
+        <span class="background-count" id="background-count" aria-live="polite"></span>
+      </div>
+
+      <div class="background-grid" id="background-grid" aria-label="Fundos disponíveis"></div>
+
+      <div class="selection-panel" id="selection-panel" hidden aria-live="polite">
+        <div class="selection-panel__thumb">
+          <img id="selected-preview" alt="" />
+        </div>
+        <div class="selection-panel__text">
+          <span class="selection-kicker">FUNDO SELECIONADO</span>
+          <strong id="selected-name">Modelo escolhido</strong>
+          <span>Pronto para receber seu texto.</span>
+        </div>
+        <button class="selection-clear" id="clear-selection" type="button">Trocar</button>
       </div>
     </section>
   </main>
@@ -54,5 +60,7 @@
     <span>Compass Rose Systems</span>
     <span>Atacadão Eletromóveis</span>
   </footer>
+
+  <script src="./backgrounds.js"></script>
 </body>
 </html>
