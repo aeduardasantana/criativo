@@ -130,5 +130,38 @@
 
   <footer class="site-footer"><span>Compass Rose Systems</span><span>Atacadão Eletromóveis</span></footer>
   <script src="./backgrounds.js"></script>
+  <script>
+    (() => {
+      const ibraimBackground = { id: 15, file: "IBRAIM ATACADÃO 1.png" };
+      backgrounds.push(ibraimBackground);
+
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "background-card";
+      button.dataset.id = ibraimBackground.id;
+      button.setAttribute("aria-pressed", "false");
+      button.setAttribute("aria-label", "Selecionar fundo " + ibraimBackground.id);
+
+      const image = document.createElement("img");
+      image.src = getSrc(ibraimBackground.file);
+      image.alt = "Fundo com Ibraim do Atacadão Eletromóveis";
+      image.loading = "lazy";
+      image.decoding = "async";
+
+      const badge = document.createElement("span");
+      badge.className = "background-card__number";
+      badge.textContent = String(ibraimBackground.id).padStart(2, "0");
+
+      const check = document.createElement("span");
+      check.className = "background-card__check";
+      check.setAttribute("aria-hidden", "true");
+      check.textContent = "✓";
+
+      button.append(image, badge, check);
+      button.addEventListener("click", () => selectBackground(ibraimBackground, button, true));
+      grid.appendChild(button);
+      count.textContent = backgrounds.length + " fundos disponíveis";
+    })();
+  </script>
 </body>
 </html>
